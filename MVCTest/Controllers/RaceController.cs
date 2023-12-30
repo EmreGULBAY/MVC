@@ -1,25 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MVCTest.Data;
+using MVCTest.Interfaces;
 using MVCTest.Models;
 
 namespace MVCTest.Controllers
 {
     public class RaceController : Controller
     {
-        ApplicationDbContext _context;
-        public RaceController(ApplicationDbContext context)
+        IRaceRepository _raceRepository;
+        public RaceController(IRaceRepository ir)
         {
-            _context = context;
+           _raceRepository = ir;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Race> races = _context.Races.ToList();
+            IEnumerable<Race> races = await _raceRepository.GetAll();
             return View(races);
         }
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int id)
         {
-            return View(_context.Races.Include(a => a.Address).Where(q => q.Id == id).ToList()[0]);
+            Race race = await _raceRepository.GetByIdAsync(id);
+
+            return View(race);
         }
     }
 }
