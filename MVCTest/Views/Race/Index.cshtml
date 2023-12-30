@@ -7,7 +7,10 @@
 }
 <h1>Race Index</h1>
 
-@foreach(var item in Model)
+
+@foreach (var item in Model)
 {
-    <p>@item.Title</p>
+    <div class="container">
+        <a type="btn btn-success" class="btn btn-sm btn-outline-secondary" asp-controller="Club" asp-action="Detail" asp-route-id="@item.Id">@item.Id</a>
+    </div>
 }

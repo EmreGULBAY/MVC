@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MVCTest.Data;
 using MVCTest.Models;
 
@@ -16,6 +17,11 @@ namespace MVCTest.Controllers
         {
             List<Club> clubs = _context.Clubs.ToList();
             return View(clubs);
+        }
+
+        public IActionResult Detail(int id)
+        {
+            return View(_context.Clubs.Include(q => q.Address).Where(q => q.Id == id).ToList()[0]);
         }
     }
 }
