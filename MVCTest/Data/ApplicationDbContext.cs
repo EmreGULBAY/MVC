@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MVCTest.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace MVCTest.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<AppUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {

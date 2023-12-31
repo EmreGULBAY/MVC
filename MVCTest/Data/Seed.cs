@@ -111,7 +111,7 @@ namespace MVCTest.Data
                 }
             }
         }
-        /*
+        
         public static async Task SeedUsersAndRolesAsync(IApplicationBuilder applicationBuilder)
         {
             using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
@@ -168,6 +168,6 @@ namespace MVCTest.Data
                     await userManager.AddToRoleAsync(newAppUser, UserRoles.User);
                 }
             }
-        }*/
+        }
     }
 }
