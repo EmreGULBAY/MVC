@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MVCTest.Data;
 using MVCTest.Interfaces;
 using MVCTest.Models;
+using MVCTest.ViewModels;
 
 namespace MVCTest.Controllers
 {
@@ -26,7 +27,6 @@ namespace MVCTest.Controllers
             return View(club);
         }
 
-        [HttpPost]
         public async Task<IActionResult> Create(Club club)
         {
             if (!ModelState.IsValid)
@@ -36,6 +36,56 @@ namespace MVCTest.Controllers
             _clubRepository.Add(club);
 
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var club = await _clubRepository.GetByIdAsync(id);
+
+            if(club == null) return View("Error");
+            var clubVM = new EditClubViewModel
+            {
+                Title = club.Title,
+                Description = club.Description,
+                AddressId = club.AddressId,
+                Address = club.Address,
+                URL = club.Image,
+                ClubCategory = club.ClubCategory
+            };
+            return View(clubVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, EditClubViewModel clubVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Failed to edit");
+                return View("Edit", clubVM);
+            }
+
+            var userClub = await _clubRepository.GetByIdAsyncNT(id);
+
+            if(userClub != null)
+            {
+                var club = new Club
+                {
+                    Id = id,
+                    Title = clubVM.Title,
+                    Description = clubVM.Description,
+                    AddressId = clubVM.AddressId,
+                    Address = clubVM.Address,
+                    Image = clubVM.Image
+                };
+
+                _clubRepository.Update(club);
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(clubVM);
+            }
         }
     }
 }

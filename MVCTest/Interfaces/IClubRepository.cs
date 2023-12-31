@@ -6,6 +6,8 @@ namespace MVCTest.Interfaces
     {
         Task<IEnumerable<Club>> GetAll();
         Task<Club> GetByIdAsync(int id);
+        Task<Club> GetByIdAsyncNT(int id);
+
         Task<IEnumerable<Club>> GetClubByCity(string city);
         bool Add(Club club);
         bool Update(Club club);

@@ -33,6 +33,11 @@ namespace MVCTest.Repository
             return await _context.Clubs.Include(q => q.Address).FirstOrDefaultAsync(q => q.Id == id);
         }
 
+        public async Task<Club> GetByIdAsyncNT(int id)
+        {
+            return await _context.Clubs.Include(q => q.Address).AsNoTracking().FirstOrDefaultAsync(q => q.Id == id);
+        }
+
         public async Task<IEnumerable<Club>> GetClubByCity(string city)
         {
             return await _context.Clubs.Where(q => q.Address.City.Contains(city)).ToListAsync();
