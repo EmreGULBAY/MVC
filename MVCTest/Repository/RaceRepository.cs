@@ -37,6 +37,10 @@ namespace MVCTest.Repository
         {
             return await _context.Races.Include(q => q.Address).FirstOrDefaultAsync(q => q.Id == id);
         }
+        public async Task<Race> GetByIdAsyncNT(int id)
+        {
+            return await _context.Races.Include(q => q.Address).AsNoTracking().FirstOrDefaultAsync(q => q.Id == id);
+        }
 
         public bool Save()
         {
